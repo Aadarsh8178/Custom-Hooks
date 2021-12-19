@@ -1,8 +1,9 @@
 import axios from "axios";
+import { useCallback } from "react";
 
 const useGetReq = () => {
   const cancelToken = axios.CancelToken.source();
-  const getData = (path, onComplete, onError, reqParams) => {
+  const getData = useCallback((path, onComplete, onError, reqParams) => {
     return new Promise((resolve, reject) => {
       axios
         .get(path, {
@@ -18,7 +19,7 @@ const useGetReq = () => {
           reject(err);
         });
     });
-  };
+  },[cancelToken.token]);
 
   const cancelRequests = () => {
     if (cancelToken) {
